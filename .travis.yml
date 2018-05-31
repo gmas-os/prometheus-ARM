@@ -19,6 +19,8 @@ env:
     - IMAGE=blackbox_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=snmp_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
+    - IMAGE=pushgateway TAG=arm QEMU_ARCH=arm ARCH=armv7 FORCE_VERSION=0.4.0
+    - IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64 FORCE_VERSION=0.4.0
 
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
@@ -28,7 +30,12 @@ script:
   - git clone https://github.com/prometheus/${IMAGE}
   - curl -L -o qemu-${QEMU_ARCH}-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/${QEMU_VERSION}/qemu-${QEMU_ARCH}-static.tar.gz && tar zx -f qemu-${QEMU_ARCH}-static.tar.gz -C ${IMAGE}
   - 'DOWNLOAD_URL=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" https://api.github.com/repos/prometheus/${IMAGE}/releases/latest | grep "browser_download_url" | grep "linux-${ARCH}" | cut -d\" -f4)'
-  - VERSION=v$(echo ${DOWNLOAD_URL}|sed 's/.*\/v\([0-9.]*\)\/.*/\1/')
+  - if [[ -v "$FORCE_VERSION" ]]; then
+      VERSION=$FORCE_VERSION ;
+    else
+      VERSION=v$(echo ${DOWNLOAD_URL}|sed 's/.*\/v\([0-9.]*\)\/.*/\1/')
+    fi
+#  - VERSION=v$(echo ${DOWNLOAD_URL}|sed 's/.*\/v\([0-9.]*\)\/.*/\1/')
   - echo Processing ${IMAGE} version ${VERSION}
   - curl -L -o ${IMAGE}.tar.gz ${DOWNLOAD_URL} && tar zx -f ${IMAGE}.tar.gz --strip-components=1 -C ${IMAGE}
 # Build
