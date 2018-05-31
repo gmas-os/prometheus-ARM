@@ -19,8 +19,8 @@ env:
     - IMAGE=blackbox_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=snmp_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
-    - IMAGE=pushgateway TAG=arm QEMU_ARCH=arm ARCH=armv7 FORCE_VERSION=0.4.0
-    - IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64 FORCE_VERSION=0.4.0
+#    - IMAGE=pushgateway TAG=arm QEMU_ARCH=arm ARCH=armv7 FORCE_VERSION=0.4.0
+#    - IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64 FORCE_VERSION=0.4.0
 
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
