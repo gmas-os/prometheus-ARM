@@ -12,11 +12,13 @@ env:
     - IMAGE=alertmanager TAG=arm QEMU_ARCH=arm ARCH=armv7
     - IMAGE=blackbox_exporter TAG=arm QEMU_ARCH=arm ARCH=armv7
     - IMAGE=snmp_exporter TAG=arm QEMU_ARCH=arm ARCH=armv7
+    - IMAGE=pushgateway TAG=arm QEMU_ARCH=arm ARCH=armv7
     - IMAGE=prometheus TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=node_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=alertmanager TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=blackbox_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
     - IMAGE=snmp_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
+    - IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
 
 install:
   - docker run --rm --privileged multiarch/qemu-user-static:register
@@ -59,4 +61,6 @@ jobs:
     - stage: manifest
       env: IMAGE=snmp_exporter TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
       script: ./create_manifest.sh
-
+    - stage: manifest
+      env: IMAGE=pushgateway TAG=arm64 QEMU_ARCH=aarch64 ARCH=arm64
+      script: ./create_manifest.sh
