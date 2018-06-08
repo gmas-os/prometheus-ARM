@@ -33,7 +33,7 @@ script:
   - if [[ -n ${FORCE_VERSION+set} ]]; then
       VERSION=$FORCE_VERSION ;
     else
-      VERSION=v$(echo ${DOWNLOAD_URL}|sed 's/^.*\/download\/\v(.*\)\/.*$/\1/') ;
+      VERSION=v$(echo ${DOWNLOAD_URL}|sed 's/^.*\/download\/v\(.*\)\/.*$/\1/') ;
     fi
 #  - VERSION=v$(echo ${DOWNLOAD_URL}|sed 's/.*\/v\([0-9.]*\)\/.*/\1/')
   - echo Processing ${IMAGE} version ${VERSION}
